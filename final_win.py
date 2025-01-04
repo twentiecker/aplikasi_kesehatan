@@ -22,8 +22,8 @@ class FinalWin(QWidget):
         
         # init main layout
         self.layout = QVBoxLayout()
-        self.layout.addWidget(self.label_index)
-        self.layout.addWidget(self.label_perform)
+        self.layout.addWidget(self.label_index, alignment=Qt.AlignCenter)
+        self.layout.addWidget(self.label_perform, alignment=Qt.AlignCenter)
         
         # set main layout
         self.setLayout(self.layout)
