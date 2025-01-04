@@ -8,6 +8,7 @@ class FinalWin(QWidget):
         super().__init__()
         self.set_appear()
         self.initUI()
+        self.show()
 
     def set_appear(self):
         self.setWindowTitle(txt_title)
