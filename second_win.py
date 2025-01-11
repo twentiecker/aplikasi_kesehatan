@@ -1,9 +1,16 @@
 # write a code for the second app
-from PyQt5.QtCore import Qt  # alignment
+from PyQt5.QtCore import Qt, QTime, QTimer  # alignment
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QLineEdit
 from instr import *
 from final_win import *
 
+class Experiment():
+    def __init__(self, age, p1, p2, p3):
+        self.age = int(age)
+        self.p1 = int(p1)
+        self.p2 = int(p2)
+        self.p3 = int(p3)
+        
 class TestWin(QWidget):
     def __init__(self):
         super().__init__()
@@ -26,6 +33,7 @@ class TestWin(QWidget):
         self.label_ins2 = QLabel(txt_test2)
         self.label_ins3 = QLabel(txt_test3)
         self.label_timer = QLabel(txt_timer)
+        self.label_timer.setStyleSheet('font-family: Times; color: rgb(0,0,0); font-size: 36px; font-weight: bold')
         # Qlineedit
         self.edit_name = QLineEdit(txt_hintname)
         self.edit_age = QLineEdit(txt_hintage)
@@ -66,8 +74,58 @@ class TestWin(QWidget):
 
     def connects(self):
         self.button_next.clicked.connect(self.next_click)
+        self.button_test1.clicked.connect(self.timer_test)
+        self.button_test2.clicked.connect(self.timer_sits)
+        self.button_test3.clicked.connect(self.timer_final)
 
     def next_click(self):
         print('screen ketiga')
         self.hide()
-        self.fw = FinalWin() # pindah layar ketiga
+        self.experiment = Experiment(self.edit_age.text(), self.edit_tes1.text(), self.edit_tes2.text(), self.edit_tes3.text())
+        self.fw = FinalWin(self.experiment) # pindah layar ketiga
+
+    def timer_test(self): # button test1
+        self.time = QTime(0, 0, 15)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer1Event)
+        self.timer.start(1000)
+    
+    def timer1Event(self):
+        self.label_timer.setText(self.time.toString("hh:mm:ss"))
+        self.label_timer.setStyleSheet('font-family: Times; color: rgb(0,0,0); font-size: 36px; font-weight: bold')
+        self.time = self.time.addSecs(-1)
+        if self.time.toString("hh:mm:ss") == '00:00:00':
+            self.timer.stop()
+    
+    def timer_sits(self): # button test2
+        self.time = QTime(0, 0, 30)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer2Event)
+        self.timer.start(1500)
+    
+    def timer2Event(self):
+        self.label_timer.setText(self.time.toString("hh:mm:ss"))
+        self.label_timer.setStyleSheet('font-family: Times; color: rgb(0,0,0); font-size: 36px; font-weight: bold')
+        self.time = self.time.addSecs(-1)
+        if self.time.toString("hh:mm:ss") == '00:00:00':
+            self.timer.stop()
+    
+    def timer_final(self): # button test3
+        self.time = QTime(0, 1, 00)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timer3Event)
+        self.timer.start(1000)
+    
+    def timer3Event(self):
+        self.label_timer.setText(self.time.toString("hh:mm:ss"))
+        
+        if self.time.toString("hh:mm:ss") == '00:01:00':
+            self.label_timer.setStyleSheet('font-family: Times; color: rgb(0,255,0); font-size: 36px; font-weight: bold')
+        elif self.time.toString("hh:mm:ss") == '00:00:45':
+            self.label_timer.setStyleSheet('font-family: Times; color: rgb(0,0,0); font-size: 36px; font-weight: bold')
+        elif self.time.toString("hh:mm:ss") == '00:00:15':
+            self.label_timer.setStyleSheet('font-family: Times; color: rgb(0,255,0); font-size: 36px; font-weight: bold')
+        
+        self.time = self.time.addSecs(-1)
+        if self.time.toString("hh:mm:ss") == '00:00:00':
+            self.timer.stop()
