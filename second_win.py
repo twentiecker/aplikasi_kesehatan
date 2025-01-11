@@ -1,15 +1,8 @@
 # write a code for the second app
-from PyQt5.QtCore import Qt, QTimer, QTime  # alignment
+from PyQt5.QtCore import Qt  # alignment
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QLineEdit
 from instr import *
 from final_win import *
-
-class Experiment():
-    def __init__(self, age, p1, p2, p3):
-        self.age = int(age)
-        self.p1 = int(p1)
-        self.p2 = int(p2)
-        self.p3 = int(p3)
 
 class TestWin(QWidget):
     def __init__(self):
@@ -33,7 +26,6 @@ class TestWin(QWidget):
         self.label_ins2 = QLabel(txt_test2)
         self.label_ins3 = QLabel(txt_test3)
         self.label_timer = QLabel(txt_timer)
-        self.label_timer.setStyleSheet("font-size: 36px; font-family: Times; font-weight: bold;")
         # Qlineedit
         self.edit_name = QLineEdit(txt_hintname)
         self.edit_age = QLineEdit(txt_hintage)
@@ -74,67 +66,8 @@ class TestWin(QWidget):
 
     def connects(self):
         self.button_next.clicked.connect(self.next_click)
-        self.button_test1.clicked.connect(self.timer_test1)
-        self.button_test2.clicked.connect(self.timer_test2)
-        self.button_test3.clicked.connect(self.timer_test3)
 
     def next_click(self):
         print('screen ketiga')
         self.hide()
-        self.exp = Experiment(self.edit_age.text(), self.edit_tes1.text(),self.edit_tes2.text(),self.edit_tes3.text())
-        self.fw = FinalWin(self.exp) # pindah layar ketiga
-    
-    def timer_test1(self):
-        print('timer 1 running')
-        self.time = QTime(0, 0, 3)
-        self.label_timer.setText(self.time.toString('hh:mm:ss'))
-        self.label_timer.setStyleSheet("color: red; font-size: 36px; font-family: Times; font-weight: bold;")
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.timer1Event)
-        self.timer.start(1000)
-            
-    def timer1Event(self):
-        self.time = self.time.addSecs(-1)
-        self.label_timer.setText(self.time.toString('hh:mm:ss'))
-        if self.time.toString('hh:mm:ss') == '00:00:00':
-            self.timer.stop()
-            self.label_timer.setStyleSheet("color: black; font-size: 36px; font-family: Times; font-weight: bold;")
-
-    def timer_test2(self):
-        print('timer 2 running')
-        self.time = QTime(0, 0, 5)
-        self.label_timer.setText(self.time.toString('hh:mm:ss'))
-        self.label_timer.setStyleSheet("color: blue; font-size: 36px; font-family: Times; font-weight: bold;")
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.timer2Event)
-        self.timer.start(1500)
-            
-    def timer2Event(self):
-        self.time = self.time.addSecs(-1)
-        self.label_timer.setText(self.time.toString('hh:mm:ss'))
-        if self.time.toString('hh:mm:ss') == '00:00:00':
-            self.timer.stop()
-            self.label_timer.setStyleSheet("color: black; font-size: 36px; font-family: Times; font-weight: bold;")
-
-    def timer_test3(self):
-        print('timer 3 running')
-        self.time = QTime(0, 1, 0)
-        self.label_timer.setText(self.time.toString('hh:mm:ss'))
-        self.label_timer.setStyleSheet("color: green; font-size: 36px; font-family: Times; font-weight: bold;")
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.timer3Event)
-        self.timer.start(1000)
-            
-    def timer3Event(self):
-        self.time = self.time.addSecs(-1)
-        self.label_timer.setText(self.time.toString('hh:mm:ss'))
-        if self.time.toString('hh:mm:ss') == '00:00:45':
-            self.label_timer.setStyleSheet("color: black; font-size: 36px; font-family: Times; font-weight: bold;")
-        elif self.time.toString('hh:mm:ss') == '00:00:15':
-            self.label_timer.setStyleSheet("color: green; font-size: 36px; font-family: Times; font-weight: bold;")
-        elif self.time.toString('hh:mm:ss') == '00:00:00':
-            self.timer.stop()
-            self.label_timer.setStyleSheet("color: black; font-size: 36px; font-family: Times; font-weight: bold;")
+        self.fw = FinalWin() # pindah layar ketiga
